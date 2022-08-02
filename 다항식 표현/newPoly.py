@@ -1,7 +1,6 @@
 import numpy as np
 import sympy as sym
 import csv
-import os
 
 def graphTopoly(vertex, colorBit, colorLimit, onlyAnswer=True):
   varCount = vertex * colorBit
