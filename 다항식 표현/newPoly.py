@@ -40,7 +40,7 @@ def graphTopoly(vertex, colorBit):
   for i in edgeList[1:]:
     not_qubo_poly += i
   print(not_qubo_poly.expand())
-  poly='-0.01*(0'
+  poly='+0.01*(0'
   for ver in range(0,vertex):
     for color in range(0,colorBit):
       poly+=f'+{2**color}*{varNames[ver*colorBit+color]}'
@@ -53,6 +53,7 @@ def graphTopoly(vertex, colorBit):
   extra_var_name = []
   polys = str(not_qubo_poly.expand()).split(' ')
   for i in range(0, len(polys),2):
+    before = qubo_poly
     if polys[i].count('var') > 2:
       # 필요함
       if i != 0:
@@ -86,7 +87,7 @@ def graphTopoly(vertex, colorBit):
                 for n2 in range(n1+1, d):
                   qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
               for n1 in range(k):
-                qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+                qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
               for n1 in range(k):
                 for n2 in range(d-1):
                   qubo_poly += f'-2*{abcdefg[1+n2]}*{extra_var_name[varStart + n1]}'
@@ -97,7 +98,7 @@ def graphTopoly(vertex, colorBit):
                 for n2 in range(n1+1, d):
                   qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
               for n1 in range(k):
-                qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+                qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
               for n1 in range(k):
                 for n2 in range(d):
                   qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -116,7 +117,7 @@ def graphTopoly(vertex, colorBit):
                 for n2 in range(n1+1, d):
                   qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
               for n1 in range(k):
-                qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+                qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
               for n1 in range(k):
                 for n2 in range(d-1):
                   qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -130,7 +131,7 @@ def graphTopoly(vertex, colorBit):
                 for n2 in range(n1+1, d):
                   qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
               for n1 in range(k):
-                qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+                qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
               for n1 in range(k):
                 for n2 in range(d):
                   qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -154,7 +155,7 @@ def graphTopoly(vertex, colorBit):
               for n2 in range(n1+1, d):
                 qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
             for n1 in range(k):
-              qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+              qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
             for n1 in range(k):
               for n2 in range(d-1):
                 qubo_poly += f'-2*{abcdefg[1+n2]}*{extra_var_name[varStart + n1]}'
@@ -165,7 +166,7 @@ def graphTopoly(vertex, colorBit):
               for n2 in range(n1+1, d):
                 qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
             for n1 in range(k):
-              qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+              qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
             for n1 in range(k):
               for n2 in range(d):
                 qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -184,7 +185,7 @@ def graphTopoly(vertex, colorBit):
               for n2 in range(n1+1, d):
                 qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
             for n1 in range(k):
-              qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+              qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
             for n1 in range(k):
               for n2 in range(d-1):
                 qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -198,7 +199,7 @@ def graphTopoly(vertex, colorBit):
               for n2 in range(n1+1, d):
                 qubo_poly += f'+{abcdefg[n1]}*{abcdefg[n2]}'
             for n1 in range(k):
-              qubo_poly += f'+{n1 * 4 - 1}*{extra_var_name[varStart + n1]}'
+              qubo_poly += f'+{(n1+1) * 4 - 1}*{extra_var_name[varStart + n1]}'
             for n1 in range(k):
               for n2 in range(d):
                 qubo_poly += f'-2*{abcdefg[n2]}*{extra_var_name[varStart + n1]}'
@@ -210,34 +211,35 @@ def graphTopoly(vertex, colorBit):
       if i != 0:
         qubo_poly += polys[i-1]
       qubo_poly += polys[i]
+    print(f'{polys[i]} : {qubo_poly[len(before):]}')
   qubo_poly = sympify(qubo_poly)
   print(f'식 생성 완료, 총 변수 {varCount + len(extra_var_list)}개\n{qubo_poly}')
   
-  show_count = 10
+  show_count = 100
   CostList = list(200 for _ in range(show_count))
   ColorList = list(0 for _ in range(show_count))
   maxCost = 200
   for i in np.ndindex(tuple(2 for j in range(varCount+len(extra_var_list)))):
     a = list(ele for ele in zip(varObjexts, i))
     for j in range(len(extra_var_list)):
-      a.append((extra_var_list[j], i[j]))
+      a.append((extra_var_list[j], i[varCount + j]))
     answer = qubo_poly.subs(a)
     if answer<maxCost:
       InsertIndex = 0
       for x in range(show_count):
         if answer > CostList[x]:
           InsertIndex += 1
-      if(InsertIndex == show_count):
-        maxCost = answer
-      else:
-        if not(CostList[InsertIndex] == answer and ColorList[InsertIndex] == i[:varCount]):
-          CostList.insert(InsertIndex, answer)
-          ColorList.insert(InsertIndex, i[:varCount])
-          del CostList[show_count]
-          del ColorList[show_count]
+      
+      if not (CostList[InsertIndex] == answer and ColorList[InsertIndex][:varCount] == i[:varCount]):
+        CostList.insert(InsertIndex, answer)
+        ColorList.insert(InsertIndex, i)
+        del CostList[show_count]
+        del ColorList[show_count]
+      maxCost = CostList[show_count-1]
+          
   print("계산 끝! 파일 출력 시작")
   # 결과 값 출력
-  result = open('다항식 표현\\result_test.txt', 'w', encoding='utf-8')
+  result = open('다항식 표현\\result.txt', 'w', encoding='utf-8')
   result.write(f'정점:{vertex}개, 실행 시간:{time.time()-st}초' +'\n')
   ui = ''
   for i in range(0, vertex):
@@ -251,7 +253,7 @@ def graphTopoly(vertex, colorBit):
       for bit in range(colorBit):
         Total += ColorList[j][ver*colorBit + bit] * 2**bit
       ui += f'{Total:<5}'
-    result.write(f'{ui}Cost:{CostList[j]}\n')
+    result.write(f'{ui}Cost:{CostList[j]} , {ColorList[j][varCount:]}\n')
   result.close()
   print('done')
   return None
