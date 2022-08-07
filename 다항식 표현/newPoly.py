@@ -59,6 +59,8 @@ def graphTopoly(vertex, colorBit):
       if i != 0:
         if polys[i-1] == '-':
           # freedman method
+          
+          # 원본 식
           extra_var_name.append(f'w{len(extra_var_list)}')
           extra_var_list.append(symbols(extra_var_name[-1]))
           abcdefg = polys[i].split('*')
@@ -71,6 +73,20 @@ def graphTopoly(vertex, colorBit):
             for j in range(0, len(abcdefg)):
               qubo_poly += f'-{abcdefg[j]}'
           qubo_poly += ')'
+          
+          """
+          #Test 1
+          abcdefg = polys[i].split('*')
+          if(is_Number(abcdefg[0])):
+            qubo_poly += f'+{abcdefg[0]}*({polys[i].count("var")-1}'
+            for j in range(1, len(abcdefg)):
+              qubo_poly += f'-{abcdefg[j]}'
+          else:
+            qubo_poly += f'+({polys[i].count("var")-1}'
+            for j in range(0, len(abcdefg)):
+              qubo_poly += f'-{abcdefg[j]}'
+          qubo_poly += ')'
+          """
         else:
           # Ishikawa method
           if polys[i].count('var') % 2 == 0:
@@ -211,8 +227,77 @@ def graphTopoly(vertex, colorBit):
       if i != 0:
         qubo_poly += polys[i-1]
       qubo_poly += polys[i]
-    print(f'{polys[i]} : {qubo_poly[len(before):]}')
+    # print(f'{polys[i]} : {qubo_poly[len(before):]}')
   qubo_poly = sympify(qubo_poly)
+  qubo_poly_extended = qubo_poly.expand()
+  polys = str(qubo_poly_extended).split(' ')
+  print(polys)
+  poly_file_1 = open('다항식 표현\\poly1.csv', 'w', encoding='utf-8', newline='')
+  wr = csv.writer(poly_file_1)
+  a = polys[0].split('*')
+  data = []
+  print_list = []
+  if len(a) == 2:
+    if is_Number(a[0]):
+      print_list.append(a[0])
+      if a[1].startswith('var'):
+          print_list.append(a[1][3:])
+      else:
+        print_list.append(int(a[1][1:])+varCount)
+    else:
+      print_list.append(1)
+      for i in range(2):
+        if a[i].startswith('var'):
+          print_list.append(a[i][3:])
+        else:
+          print_list.append(int(a[i][1:])+varCount)
+  else:
+    print_list.append(a[0])
+    for i in range(1,3):
+      if a[i].startswith('var'):
+        print_list.append(a[i][3:])
+      else:
+        print_list.append(int(a[i][1:])+varCount)
+  data.append(print_list)
+  for j in range(2,len(polys), 2):
+    a = polys[j].split('*')
+    print_list = []
+    if len(a) == 2:
+      if is_Number(a[0]):
+        print_list.append(f'{polys[j-1]}{a[0]}')
+        if a[1].startswith('var'):
+          print_list.append(a[1][3:])
+        else:
+          print_list.append(int(a[1][1:])+varCount)
+      else:
+        print_list.append(f'{polys[j-1]}1')
+        for i in range(2):
+          if a[i].startswith('var'):
+            print_list.append(a[i][3:])
+          else:
+            print_list.append(int(a[i][1:])+varCount)
+    elif len(a) == 3:
+      print_list.append(f'{polys[j-1]}{a[0]}')
+      for i in range(1,3):
+        if a[i].startswith('var'):
+          print_list.append(a[i][3:])
+        else:
+          print_list.append(int(a[i][1:])+varCount)
+    else:
+      print_list = [f'{polys[j-1]}{polys[j]}']
+    data.append(print_list)
+  wr.writerows(data)
+  poly_file_1.close()
+  data2 = list(list(0 for _ in range(varCount + len(extra_var_list) + 1)) for __ in range(varCount + len(extra_var_list) + 1))
+  for i in data:
+    for _ in range(3-len(i)):
+      i.append(-1)
+    data2[int(i[1])+1][int(i[2])+1] = i[0]
+    data2[int(i[2])+1][int(i[1])+1] = i[0]
+  f = open('다항식 표현\\poly2.csv', 'w', encoding='utf-8', newline='')
+  wr = csv.writer(f)
+  wr.writerows(data2)
+  f.close()
   print(f'식 생성 완료, 총 변수 {varCount + len(extra_var_list)}개\n{qubo_poly}')
   
   show_count = 100
