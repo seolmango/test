@@ -40,12 +40,12 @@ def graphTopoly(vertex, colorBit):
   for i in edgeList[1:]:
     not_qubo_poly += i
   print(not_qubo_poly.expand())
-  poly='+0.01*(0'
-  for ver in range(0,vertex):
-    for color in range(0,colorBit):
-      poly+=f'+{2**color}*{varNames[ver*colorBit+color]}'
-  poly+=')'
-  not_qubo_poly += sympify(poly)
+  # poly='+0.01*(0'
+  # for ver in range(0,vertex):
+  #   for color in range(0,colorBit):
+  #     poly+=f'+{2**color}*{varNames[ver*colorBit+color]}'
+  # poly+=')'
+  # not_qubo_poly += sympify(poly)
   
   # degree reduction
   qubo_poly = ''
@@ -73,20 +73,6 @@ def graphTopoly(vertex, colorBit):
             for j in range(0, len(abcdefg)):
               qubo_poly += f'-{abcdefg[j]}'
           qubo_poly += ')'
-          
-          """
-          #Test 1
-          abcdefg = polys[i].split('*')
-          if(is_Number(abcdefg[0])):
-            qubo_poly += f'+{abcdefg[0]}*({polys[i].count("var")-1}'
-            for j in range(1, len(abcdefg)):
-              qubo_poly += f'-{abcdefg[j]}'
-          else:
-            qubo_poly += f'+({polys[i].count("var")-1}'
-            for j in range(0, len(abcdefg)):
-              qubo_poly += f'-{abcdefg[j]}'
-          qubo_poly += ')'
-          """
         else:
           # Ishikawa method
           if polys[i].count('var') % 2 == 0:
@@ -344,4 +330,4 @@ def graphTopoly(vertex, colorBit):
   return None
 
 
-graphTopoly(3, 2)
+graphTopoly(4, 2)
